@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ethical hacking services by Htoo Aye Chan, aka Kronos, specializing in cybersecurity and file recovery.">
+    <meta name="keywords" content="ethical hacking, cybersecurity, penetration testing, file recovery">
+    <meta name="author" content="Htoo Aye Chan">
+    <link rel="icon" href="D:\SLT(ACT)\MYWEB\ChatGPT Image Apr 26, 2025, 07_19_47 PM.png" type="image/png"> <!-- Replace with your logo path/URL -->
+    <title>Kronos Ethical Hacking Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* CSS Custom Properties (Variables) */
+        :root {
+            --background-dark: #000000;
+            --background-secondary: #1a1a1a;
+            --text-primary: #ff0000; /* Red text */
+            --text-secondary: #cc0000; /* Slightly darker red for contrast */
+            --shadow-light: rgba(255, 0, 0, 0.3); /* Red-tinted shadow */
+            --shadow-dark: rgba(255, 0, 0, 0.1);
+            --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-glow: #ff3333; /* Brighter red for glow effects */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--background-dark) url('https://www.transparenttextures.com/patterns/brick-wall.png') repeat, linear-gradient(135deg, rgba(17, 17, 17, 0.8), rgba(34, 34, 34, 0.8));
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: filter 0.5s var(--transition-ease);
+        }
+
+        /* Entrance Video Overlay */
+        #entrance-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 10000;
+            background: #000000;
+            opacity: 1;
+            transition: opacity 1s var(--transition-ease);
+        }
+
+        #video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video-controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s var(--transition-ease);
+        }
+
+        #video-controls button {
+            background: rgba(17, 17, 17, 0.8);
+            border: none;
+            color: var(--text-primary);
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s var(--transition-ease);
+        }
+
+        #video-controls button:hover {
+            background: rgba(34, 34, 34, 0.8);
+        }
+
+        #entrance-video.ended {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.loaded #entrance-video {
+            opacity: 0;
+        }
+
+        body.loaded {
+            filter: none;
+        }
+
+        /* Background Canvas with WebGL Shader */
+        #backgroundCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Logo Styling */
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: url('[YOUR_LOGO_URL_OR_PATH]') no-repeat center center;
+            background-size: contain;
+            z-index: 1001;
+            transition: transform 0.3s var(--transition-ease);
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Parallax Section with Video Background */
+        .parallax {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+        }
+
+        .parallax video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.8); /* Adjusted for black-and-red theme */
+        }
+
+        .parallax::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            mix-blend-mode: overlay;
+        }
+
+        .parallax-content {
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .parallax h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .parallax p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sticky Header with Glassmorphism and Shape */
+        nav {
+            background: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px var(--shadow-light);
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            transition: background 0.3s var(--transition-ease);
+        }
+
+        nav.scrolled {
+            background: rgba(34, 34, 34, 0.9);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: transform 0.3s var(--transition-ease);
+        }
+
+        nav ul li a:hover {
+            transform: scale(1.1);
+            color: var(--accent-glow);
+        }
+
+        /* Dropdown Menu with Animation */
+        nav ul li.dropdown:hover .dropdown-content {
+            display: block;
+            animation: slideDown 0.3s var(--transition-ease);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: var(--background-secondary);
+            min-width: 160px;
+            box-shadow: 0 8px 16px var(--shadow-light);
+            z-index: 1;
+            border-radius: 5px;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+        }
+
+        .dropdown-content a {
+            color: var(--text-primary);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background: #222222;
+            color: var(--accent-glow);
+        }
+
+        /* Main Container */
+        main {
+            overflow-y: auto;
+            height: auto;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            filter: drop-shadow(2px 2px 4px var(--shadow-dark));
+        }
+
+        section h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: var(--text-primary);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s var(--transition-ease);
+        }
+
+        section:hover h2::after {
+            width: 100px;
+        }
+
+        /* Services Grid with Masonry Layout */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+
+        .service-card {
+            background: var(--background-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s var(--transition-ease), box-shadow 0.3s var(--transition-ease);
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInCard 1s var(--transition-ease) forwards;
+            opacity: 0;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+        .service-card:nth-child(7) { animation-delay: 0.7s; }
+        .service-card:nth-child(8) { animation-delay: 0.8s; }
+        .service-card:nth-child(9) { animation-delay: 0.9s; }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--shadow-dark) 0%, transparent 70%);
+            z-index: -1;
+            transition: transform 0.6s var(--transition-ease);
+        }
+
+        .service-card:hover::before {
+            transform: translate(50%, 50%);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 5px 15px var(--shadow-light);
+        }
+
+        .service-card i {
+            font-size: 2em;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            font-size: 1em;
+            color: var(--text-secondary);
+        }
+
+        /* Tabbed Interface for Services */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s var(--transition-ease), transform 0.2s var(--transition-ease);
+        }
+
+        .tab-button:hover {
+            background: #222222;
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: #333333;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Certifications with Masonry */
+        .certifications-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .certification-item {
+            background: var(--background-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
+            transition: clip-path 0.3s var(--transition-ease), transform 0.3s var(--transition-ease);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certification-item:hover {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            transform: scale(1.05);
+        }
+
+        .certification-item p {
+            font-size: 1.1em;
+            color: var(--text-primary);
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Contact Section with Dialog and Photo */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-info img {
+            width: 150px;
+            height: auto;
+            border-radius: 50%;
+            filter: grayscale(100%) brightness(0.8); /* Adjusted for black-and-red theme */
+            transition: filter 0.3s var(--transition-ease);
+        }
+
+        .contact-info img:hover {
+            filter: grayscale(0) brightness(1);
+        }
+
+        .contact-info button {
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.2s var(--transition-ease), box-shadow 0.2s var(--transition-ease);
+        }
+
+        .contact-info button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--shadow-light);
+        }
+
+        dialog {
+            border: none;
+            border-radius: 10px;
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            animation: slideInModal 0.5s var(--transition-ease);
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Footer with Texture and Gradient */
+        footer {
+            background: linear-gradient(45deg, var(--background-secondary), #222222) url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            animation: fadeIn 2s var(--transition-ease);
+        }
+
+        footer p {
+            font-size: 0.9em;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowText {
+            from { text-shadow: 0 0 5px var(--text-primary); }
+            to { text-shadow: 0 0 15px var(--text-primary); }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInModal {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .parallax h1 {
+                font-size: 2.5em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .services-grid, .certifications-list, .tab-content {
+                grid-template-columns: 1fr;
+            }
+
+            .parallax video {
+                display: none;
+            }
+
+            .parallax {
+                background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3') no-repeat center center fixed;
+                background-size: cover;
+            }
+
+            .contact-info img {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Entrance Video -->
+    <div id="video-container">
+        <video id="entrance-video" autoplay muted>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+        <div id="video-controls">
+            <button id="skip-video">Skip Intro</button>
+        </div>
+    </div>
+
+    <!-- Background Canvas with WebGL Shader -->
+    <canvas id="backgroundCanvas"></canvas>
+
+    <!-- Logo -->
+    <div class="logo"></div>
+
+    <!-- Header with Semantic HTML -->
+    <header>
+        <nav id="navbar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li class="dropdown">
+                    <a href="#services">Services</a>
+                    <div class="dropdown-content">
+                        <a href="#services">All Services</a>
+                        <a href="#services">Vulnerability Assessment</a>
+                        <a href="#services">Penetration Testing</a>
+                    </div>
+                </li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content with Semantic HTML -->
+    <main>
+        <!-- Parallax Hero Section with Video Background -->
+        <section id="home" class="parallax">
+            <video autoplay muted loop>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
+            <div class="parallax-content">
+                <h1>Kronos Ethical Hacking</h1>
+                <p>Secure your digital assets with ethical hacking services by Htoo Aye Chan, aka Kronos.</p>
+            </div>
+        </section>
+
+        <!-- Services Section with Tabs -->
+        <section id="services">
+            <h2>My Services</h2>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="all">All</button>
+                <button class="tab-button" data-tab="security">Security</button>
+                <button class="tab-button" data-tab="recovery">Recovery</button>
+            </div>
+            <div class="tab-content active" id="all">
+                <div class="services-grid">
+                    <article class="service-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Website Vulnerability Assessment</h3>
+                        <p>Scan and identify security weaknesses in your website to prevent attacks.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-file-code"></i>
+                        <h3>File Recovery</h3>
+                        <p>Recover locked or encrypted PDF, ZIP, RAR, and other files securely.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Website Source Code Analysis</h3>
+                        <p>Extract and review website source code for security and optimization.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-network-wired"></i>
+                        <h3>DDoS Testing</h3>
+                        <p>Test your system's resilience against simulated DDoS attacks.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-search"></i>
+                        <h3>Information Gathering</h3>
+                        <p>Collect and analyze data to uncover potential security risks.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-lock"></i>
+                        <h3>Penetration Testing</h3>
+                        <p>Simulate cyber-attacks to evaluate and strengthen your security.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-bug"></i>
+                        <h3>Malware Analysis</h3>
+                        <p>Analyze and remove malicious software to protect your systems.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-server"></i>
+                        <h3>Server Security Audit</h3>
+                        <p>Assess and secure your servers against unauthorized access.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Database Security Testing</h3>
+                        <p>Ensure your databases are protected from breaches and leaks.</p>
+                    </article>
+                </div>
+            </div>
+            <div class="tab-content" id="security">
+                <div class="services-grid">
+                    <article class="service-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Website Vulnerability Assessment</h3>
+                        <p>Scan and identify security weaknesses in your website.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-network-wired"></i>
+                        <h3>DDoS Testing</h3>
+                        <p>Test your system's resilience against DDoS attacks.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-lock"></i>
+                        <h3>Penetration Testing</h3>
+                        <p>Simulate cyber-attacks to evaluate security.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-bug"></i>
+                        <h3>Malware Analysis</h3>
+                        <p>Analyze and remove malicious software.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-server"></i>
+                        <h3>Server Security Audit</h3>
+                        <p>Assess and secure your servers.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Database Security Testing</h3>
+                        <p>Protect databases from breaches.</p>
+                    </article>
+                </div>
+            </div>
+            <div class="tab-content" id="recovery">
+                <div class="services-grid">
+                    <article class="service-card">
+                        <i class="fas fa-file-code"></i>
+                        <h3>File Recovery</h3>
+                        <p>Recover locked or encrypted files securely.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Website Source Code Analysis</h3>
+                        <p>Extract and review source code.</p>
+                    </article>
+                    <article class="service-card">
+                        <i class="fas fa-search"></i>
+                        <h3>Information Gathering</h3>
+                        <p>Collect and analyze security data.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications">
+            <h2>My Certifications</h2>
+            <div class="certifications-list">
+                <article class="certification-item">
+                    <p>The Complete Python Developer - Udemy</p>
+                </article>
+                <article class="certification-item">
+                    <p>Cybersecurity Operations Fundamentals - Cisco (Nov 21, 2024)</p>
+                </article>
+                <article class="certification-item">
+                    <p>CISSP - Certified Information Systems Security Professional - Udemy</p>
+                </article>
+                <article class="certification-item">
+                    <p>Cybersecurity Operations Fundamentals - Cisco (Mar 31, 2024)</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Kronos</h2>
+            <p>I'm Htoo Aye Chan, known as Kronos, an aspiring ethical hacker passionate about cybersecurity. While I'm still developing my expertise, I hold certifications in Python development, cybersecurity operations, and CISSP. I offer a range of ethical hacking services, including vulnerability assessments, penetration testing, and file recovery, to help protect your digital assets. My goal is to deliver reliable services while continuously improving my skills.</p>
+        </section>
+
+        <!-- Contact Section with Dialog and Photo -->
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <div class="contact-info">
+                <img src="D:\SLT(ACT)\MYWEB\0-02-01-69759aea24b795676342cc2637d3d24a70ddec3488264c151144d1224a5fc9a2_10b73525b8ea6789.jpg" alt="Htoo Aye Chan" loading="lazy"> <!-- Replace with your photo path/URL -->
+                <button id="openDialog">Get in Touch</button>
+            </div>
+            <dialog id="contactDialog">
+                <form method="dialog">
+                    <h3>Contact Information</h3>
+                    <p><i class="fas fa-phone"></i> Phone: <a href="tel:+959445381425">+959445381425</a></p>
+                    <p><i class="fab fa-facebook"></i> Facebook: <a href="https://www.facebook.com/htoo.aye.chan.2025" target="_blank">Htoo Aye Chan</a></p>
+                    <button type="submit" class="close">Close</button>
+                </form>
+            </dialog>
+        </section>
+    </main>
+
+    <!-- Footer with Semantic HTML -->
+    <footer>
+        <p>© 2025 Kronos Ethical Hacking. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sectionId = this.getAttribute('href');
+                document.querySelector(sectionId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const parallax = document.querySelector('.parallax');
+            let scrollPosition = window.pageYOffset;
+            parallax.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+
+            // Sticky header effect
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Tabbed Interface Functionality
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Dialog Functionality
+        const dialog = document.getElementById('contactDialog');
+        const openDialogBtn = document.getElementById('openDialog');
+
+        openDialogBtn.addEventListener('click', () => {
+            dialog.showModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && dialog.open) {
+                dialog.close();
+            }
+        });
+
+        // Entrance Video Control
+        const entranceVideo = document.getElementById('entrance-video');
+        const skipButton = document.getElementById('skip-video');
+
+        entranceVideo.addEventListener('ended', () => {
+            entranceVideo.classList.add('ended');
+            document.body.classList.add('loaded');
+            setTimeout(() => {
+                entranceVideo.style.display = 'none';
+            }, 1000);
+        });
+
+        skipButton.addEventListener('click', () => {
+            entranceVideo.classList.add('ended');
+            document.body.classList.add('loaded');
+            setTimeout(() => {
+                entranceVideo.style.display = 'none';
+            }, 1000);
+        });
+
+        // WebGL Shader for Background Canvas
+        const canvas = document.getElementById('backgroundCanvas');
+        const gl = canvas.getContext('webgl');
+
+        if (gl) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const vertexShaderSource = `
+                attribute vec2 a_position;
+                void main() {
+                    gl_Position = vec4(a_position, 0.0, 1.0);
+                }
+            `;
+
+            const fragmentShaderSource = `
+                precision mediump float;
+                uniform vec2 u_resolution;
+                uniform float u_time;
+                void main() {
+                    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+                    float t = u_time * 0.1;
+                    float noise = sin(uv.x * 10.0 + t) * cos(uv.y * 10.0 + t) * 0.5 + 0.5;
+                    gl_FragColor = vec4(vec3(noise), 0.5);
+                }
+            `;
+
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            gl.shaderSource(vertexShader, vertexShaderSource);
+            gl.compileShader(vertexShader);
+
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragmentShader, fragmentShaderSource);
+            gl.compileShader(fragmentShader);
+
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            const positions = new Float32Array([
+                -1, -1,
+                 1, -1,
+                -1,  1,
+                -1,  1,
+                 1, -1,
+                 1,  1
+            ]);
+            gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+            const positionLocation = gl.getAttribLocation(program, 'a_position');
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+            const timeLocation = gl.getUniformLocation(program, 'u_time');
+
+            function render() {
+                gl.viewport(0, 0, canvas.width, canvas.height);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.uniform1f(timeLocation, performance.now() / 1000);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                requestAnimationFrame(render);
+            }
+
+            render();
+        }
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Web Animation API for Card Hover Effects
+        const cards = document.querySelectorAll('.service-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.animate([
+                    { transform: 'translateY(0) rotateX(0deg) rotateY(0deg)' },
+                    { transform: 'translateY(-10px) rotateX(5deg) rotateY(5deg)', offset: 0.5 },
+                    { transform: 'translateY(-10px) rotateX(5deg) rotateY(5deg)' }
+                ], {
+                    duration: 300,
+                    easing: 'ease-out',
+                    fill: 'forwards'
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.animate([
+                    { transform: 'translateY(-10px) rotateX(5deg) rotateY(5deg)' },
+                    { transform: 'translateY(0) rotateX(0deg) rotateY(0deg)', offset: 0.5 },
+                    { transform: 'translateY(0) rotateX(0deg) rotateY(0deg)' }
+                ], {
+                    duration: 300,
+                    easing: 'ease-in',
+                    fill: 'forwards'
+                });
+            });
+        });
+    </script>
